@@ -14,4 +14,10 @@ public class Torre extends ChessPiece {
 	public String toString() {
 		return "T";
 	}
+
+	@Override
+	public boolean[][] movimentosPossiveis() {
+		// TODO Auto-generated method stub
+				return null;
+	}
 }

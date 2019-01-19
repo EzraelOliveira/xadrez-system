@@ -16,4 +16,12 @@ public class Rei extends ChessPiece{
 		return"R";
 	}
 
+	@Override
+	public boolean[][] movimentosPossiveis() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 }
