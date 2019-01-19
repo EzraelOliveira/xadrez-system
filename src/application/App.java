@@ -1,12 +1,26 @@
 package application;
 
+import java.util.Scanner;
+
+import chess.ChessPiece;
 import chess.PartidaXadrez;
+import chess.XadrezPosicao;
 
 public class App {
 	public static void main(String[] args) {
-
+		Scanner sc = new Scanner(System.in);
 		PartidaXadrez partidaXadrez = new PartidaXadrez();
-		UI.printBoard(partidaXadrez.getPieces());
+		while(true) {
+			UI.printBoard(partidaXadrez.getPieces());
+			System.out.println();
+			System.out.println("Origem: ");
+			XadrezPosicao inicial = UI.lerXadrezPosicao(sc);
+			System.out.println();
+			System.out.println("Alvo: ");
+			XadrezPosicao target = UI.lerXadrezPosicao(sc);
+			
+			ChessPiece pieceCapturada =  partidaXadrez.movimentoXadrez(inicial, target);
+		}
 	}
 
 }
