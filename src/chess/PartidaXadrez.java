@@ -30,12 +30,13 @@ public class PartidaXadrez {
 	}
 
 	public void iniciarPartida() {
-		lugarNovaPiece('a',1,new Torre(tabuleiro, Color.BRANCO));
-		lugarNovaPiece('h',1,new Torre(tabuleiro, Color.BRANCO));
-		lugarNovaPiece('e',1,new Rei(tabuleiro, Color.BRANCO));
-		lugarNovaPiece('a',8,new Torre(tabuleiro, Color.PRETO));
-		lugarNovaPiece('h',8,new Torre(tabuleiro, Color.PRETO));
-		lugarNovaPiece('e',8,new Rei(tabuleiro, Color.PRETO));
+		lugarNovaPiece('a', 1, new Torre(tabuleiro, Color.BRANCO));
+        lugarNovaPiece('h', 1, new Torre(tabuleiro, Color.BRANCO));
+        lugarNovaPiece('e', 1, new Rei(tabuleiro, Color.BRANCO));
+
+        lugarNovaPiece('a', 8, new Torre(tabuleiro, Color.PRETO));
+        lugarNovaPiece('h', 8, new Torre(tabuleiro, Color.PRETO));
+        lugarNovaPiece('e', 8, new Rei(tabuleiro, Color.PRETO));
 		
 	}
 }
