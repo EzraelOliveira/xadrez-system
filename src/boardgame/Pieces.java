@@ -16,7 +16,7 @@ public abstract class Pieces {
 	}
 	public abstract boolean[][] movimentosPossiveis();
 		 
-	public boolean movimentoPossivel() {
+	public boolean movimentoPossivel(Posicao alvo) {
 		return movimentosPossiveis()[posicao.getLinha()][posicao.getColuna()];
 	}
 	public  boolean existeAlgumMovimentoPossivel() {

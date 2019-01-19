@@ -33,6 +33,7 @@ public class PartidaXadrez {
 		Posicao inicial = posicaoInicial.toPosicao();
 		Posicao alvo = posicaoAlvo.toPosicao();
 		validarPosicaoInicial(inicial);
+		validarPosicaoAlvo(inicial, alvo);
 		Pieces pieceCapturada = fazerMovimento(inicial, alvo);
 		return (ChessPiece)pieceCapturada;
 	}
@@ -43,10 +44,18 @@ public class PartidaXadrez {
 		tabuleiro.lugarPiece(p, alvo);
 		return pieceCapturada;
 	}
-	private void validarPosicaoInicial(Posicao posicaoInicial) {
-		if(!tabuleiro.temUmaPiece(posicaoInicial)) {
+	private void validarPosicaoInicial(Posicao inicial) {
+		if(!tabuleiro.temUmaPiece(inicial)) {
 			throw new XadrezException("Nao existe nada na coordenada informada");
 		}
+		if(tabuleiro.piece(inicial).existeAlgumMovimentoPossivel()) {
+			throw new XadrezException("Nao existe movientos possíveis");
+		}
+	}
+	
+	private void validarPosicaoAlvo(Posicao inicial, Posicao alvo) {
+		if(!tabuleiro.piece(inicial).movimentoPossivel(alvo));
+		throw new XadrezException("A peca escolhida nao pode se mecher para a cordenada de destino");
 	}
 	
 	public void lugarNovaPiece(char coluna, int linha, ChessPiece piece) {
