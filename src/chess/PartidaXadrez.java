@@ -28,6 +28,11 @@ public class PartidaXadrez {
 		return mat;
 	}
 	
+	public boolean[][] MovimentosPossiveis(XadrezPosicao posicaoInicial){
+		Posicao posicao  = posicaoInicial.toPosicao();
+		validarPosicaoInicial(posicao);
+		return tabuleiro.piece(posicao).movimentosPossiveis();
+	}
 
 	public ChessPiece movimentoXadrez(XadrezPosicao posicaoInicial, XadrezPosicao posicaoAlvo) {
 		Posicao inicial = posicaoInicial.toPosicao();

@@ -19,6 +19,8 @@ public class App {
 				System.out.println();
 				System.out.println("Origem: ");
 				XadrezPosicao inicial = UI.lerXadrezPosicao(sc);
+				
+				boolean[][] movimentosPossiveis = partidaXadrez.MovimentosPossiveis(inicial);
 				System.out.println();
 				System.out.println("Alvo: ");
 				XadrezPosicao target = UI.lerXadrezPosicao(sc);
