@@ -28,21 +28,21 @@ public class Tabuleiro {
 	// METHODS
 	public Pieces piece(int linha, int coluna) {
 		if(!posicaoExiste(linha, coluna)){
-			throw new TabuleiroException("Posição não está no tabuleiro");
+			throw new TabuleiroException("Coordenada informada está fora do tabuleiro");
 		}
 		return pieces[linha][coluna];
 	}
 
 	public Pieces piece(Posicao posicao) {
 		if(!posicaoExiste(posicao)){
-			throw new TabuleiroException("Posição não está no tabuleiro");
+			throw new TabuleiroException("Coordeanda informada está fora do tabuleiro");
 		}
 		return pieces[posicao.getLinha()][posicao.getColuna()];
 	}
 
 	public void lugarPiece(Pieces piece, Posicao posicao) {
 		if(temUmaPiece(posicao)) {
-			throw new TabuleiroException("Já existe uma peça na posição "+ posicao);
+			throw new TabuleiroException("Já existe algo nessa coordenada: "+ posicao);
 		}
 		pieces[posicao.getLinha()][posicao.getColuna()] = piece;
 		piece.posicao = posicao;
@@ -50,7 +50,7 @@ public class Tabuleiro {
 	
 	public Pieces removerPiece(Posicao posicao) {
 		if(!posicaoExiste(posicao)) {
-			throw new TabuleiroException("Posição fora do tabuleiro");
+			throw new TabuleiroException("Coordenada fora do tabuleiro");
 		}
 		if (piece(posicao)==null) {
 			return null;
@@ -72,7 +72,7 @@ public class Tabuleiro {
 
 	public boolean temUmaPiece(Posicao posicao) {
 		if(!posicaoExiste(posicao)){
-			throw new TabuleiroException("Posição não está no tabuleiro");
+			throw new TabuleiroException("Coordenada está fora do tabuleiro");
 		}
 		return piece(posicao) != null;
 	}

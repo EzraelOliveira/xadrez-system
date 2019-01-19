@@ -1,5 +1,6 @@
 package application;
 
+//Alguns códigos dessa Classe foram pegos no StackOverFlow, todos eles estão referênciados;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -9,6 +10,8 @@ import chess.XadrezPosicao;
 
 //USER INTERFACE
 public class UI {
+	// Cores e Fundos para os Caractéres
+	// https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
 	public static final String ANSI_RESET = "\u001B[0m";
 	public static final String ANSI_BLACK = "\u001B[30m";
 	public static final String ANSI_RED = "\u001B[31m";
@@ -27,8 +30,15 @@ public class UI {
 	public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
-	// O código a cima foi pego no StackOverFlow
-	// https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
+
+	public static void limparConsole() {
+		// limparConsole
+		// https://stackoverflow.com/questions/2979383/java-clear-the-console
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+		
+	}
+	
 
 	public static XadrezPosicao lerXadrezPosicao(Scanner sc) {
 		try {
@@ -37,7 +47,7 @@ public class UI {
 			int linha = Integer.parseInt(s.substring(1));
 			return new XadrezPosicao(coluna, linha);
 		} catch (Exception e) {
-			throw new InputMismatchException("Erro lendo a posiçao de xadrez, valores válidos são de a1 a h8");
+			throw new InputMismatchException("Erro lendo a coordenada, somente é válidos volores de a1 a h8");
 		}
 	}
 
@@ -64,4 +74,5 @@ public class UI {
 		}
 		System.out.print(" ");
 	}
+
 }

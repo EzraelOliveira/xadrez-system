@@ -10,7 +10,7 @@ public class XadrezPosicao {
 	// CONSTRUCTORS
 	public XadrezPosicao(char coluna, int linha) {
 		if (coluna < 'a' || coluna > 'h' || linha < 1 || linha > 8) {
-			throw new XadrezException("Valor inválido, somente serão aceito valores de a1 a h8");
+			throw new XadrezException("Valor inválido, somente será aceito valores de a1 a h8");
 		}
 		this.linha = linha;
 		this.coluna = coluna;

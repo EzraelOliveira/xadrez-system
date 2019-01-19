@@ -45,7 +45,7 @@ public class PartidaXadrez {
 	}
 	private void validarPosicaoInicial(Posicao posicaoInicial) {
 		if(!tabuleiro.temUmaPiece(posicaoInicial)) {
-			throw new XadrezException("Não existe peça na posição de origem");
+			throw new XadrezException("Nao existe nada na coordenada informada");
 		}
 	}
 	
