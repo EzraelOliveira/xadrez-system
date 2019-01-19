@@ -1,10 +1,13 @@
 package application;
 
-import boardgame.Tabuleiro;
+import chess.PartidaXadrez;
 
 public class App {
 	public static void main(String[] args) {
-		Tabuleiro tabuleiro = new Tabuleiro(8, 8);
+
+		PartidaXadrez partidaXadrez = new PartidaXadrez();
+		UI.printBoard(partidaXadrez.getPieces());
 	}
 
 }
+ 
