@@ -17,6 +17,7 @@ public class PartidaXadrez {
 	private Cor jogadorAtual;
 	private Tabuleiro tabuleiro;
 	private boolean check;
+	private boolean checkMate;
 	private List<Piece> piecesNoTabuleiro = new ArrayList<>();
 	private List<Piece> piecesCapturadas = new ArrayList<>();
 
@@ -39,6 +40,10 @@ public class PartidaXadrez {
 
 	public boolean getCheck() {
 		return check;
+	}
+
+	public boolean getCheckMate() {
+		return checkMate;
 	}
 
 	// METHODS
@@ -76,7 +81,11 @@ public class PartidaXadrez {
 		}
 		check = (testeCheck(oponente(jogadorAtual))) ? true : false;
 
-		proximoTurno();
+		if (testeCheckMate(oponente(jogadorAtual))) {
+			checkMate = true;
+		}else {
+			proximoTurno();
+		}
 		return (PieceXadrez) pieceCapturada;
 	}
 
@@ -149,18 +158,43 @@ public class PartidaXadrez {
 		return false;
 	}
 
+	private boolean testeCheckMate(Cor cor) {
+		if (!testeCheck(cor)) {
+			return false;
+		}
+		List<Piece> list = piecesNoTabuleiro.stream().filter(x -> ((PieceXadrez) x).getCor() == cor)
+				.collect(Collectors.toList());
+		for (Piece p : list) {
+			boolean[][] mat = p.movimentosPossiveis();
+			for (int i = 0; i < mat.length; i++) {
+				for (int j = 0; j < mat.length; j++) {
+					if (mat[i][j]) {
+						Posicao inicial = ((PieceXadrez) p).getPosicaoXadrez().toPosition();
+						Posicao alvo = new Posicao(i, j);
+						Piece pieceCapturada = fazerMovimento(inicial, alvo);
+						boolean testeCheck = testeCheck(cor);
+						desfazerMovimento(inicial, alvo, pieceCapturada);
+						if (!testeCheck) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}
+
 	private void lugarNovaPiece(char coluna, int linha, PieceXadrez piece) {
 		tabuleiro.lugarpiece(piece, new PosicaoXadrez(coluna, linha).toPosition());
 		piecesNoTabuleiro.add(piece);
 	}
 
 	private void initialSetup() {
-		lugarNovaPiece('a', 1, new Torre(tabuleiro, Cor.BRANCO));
-		lugarNovaPiece('h', 1, new Torre(tabuleiro, Cor.BRANCO));
+		lugarNovaPiece('h', 7, new Torre(tabuleiro, Cor.BRANCO));
+		lugarNovaPiece('d', 1, new Torre(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('e', 1, new Rei(tabuleiro, Cor.BRANCO));
 
-		lugarNovaPiece('a', 8, new Torre(tabuleiro, Cor.PRETO));
-		lugarNovaPiece('h', 8, new Torre(tabuleiro, Cor.PRETO));
-		lugarNovaPiece('e', 8, new Rei(tabuleiro, Cor.PRETO));
+		lugarNovaPiece('b', 8, new Torre(tabuleiro, Cor.PRETO));
+		lugarNovaPiece('a', 8, new Rei(tabuleiro, Cor.PRETO));
 	}
 }

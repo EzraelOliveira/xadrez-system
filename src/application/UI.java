@@ -59,19 +59,25 @@ public class UI {
 			throw new InputMismatchException("Somente sera aceito coordenadas de a1 a h8");
 		}
 	}
+
 	public static void printPartida(PartidaXadrez partidaXadrez, List<PieceXadrez> capturadas) {
 		printTabuleiro(partidaXadrez.getPieces());
 		System.out.println();
 		printPiecesCapturadas(capturadas);
 		System.out.println();
-		System.out.println("Turno: "+ partidaXadrez.getTurno());
-		System.out.println("Esperando a jogada do jogador:"+ partidaXadrez.getJogadorAtual() );
-		
-		if(partidaXadrez.getCheck()) {
-			System.out.println("CHECK!");
+		System.out.println("Turno: " + partidaXadrez.getTurno());
+
+		if (!partidaXadrez.getCheckMate()) {
+			System.out.println("Esperando a jogada do jogador: " + partidaXadrez.getJogadorAtual());
+			if (partidaXadrez.getCheck()) {
+				System.out.println("CHECK!");
+			}
+		} else {
+			System.out.println("CHECKMATE!");
+			System.out.println("Vencedor: " + partidaXadrez.getJogadorAtual());
 		}
-		
 	}
+
 	public static void printTabuleiro(PieceXadrez[][] pieces) {
 		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");
@@ -93,9 +99,11 @@ public class UI {
 		}
 		System.out.println("  a b c d e f g h");
 	}
+
 	private static void printPiecesCapturadas(List<PieceXadrez> capturadas) {
-		List <PieceXadrez> branco = capturadas.stream().filter(x -> x.getCor() == Cor.BRANCO).collect(Collectors.toList());
-		List <PieceXadrez> preto = capturadas.stream().filter(x -> x.getCor() == Cor.PRETO).collect(Collectors.toList());
+		List<PieceXadrez> branco = capturadas.stream().filter(x -> x.getCor() == Cor.BRANCO)
+				.collect(Collectors.toList());
+		List<PieceXadrez> preto = capturadas.stream().filter(x -> x.getCor() == Cor.PRETO).collect(Collectors.toList());
 		System.out.println("Capturadas: ");
 		System.out.println("Brancas: ");
 		System.out.println(ANSI_WHITE);
