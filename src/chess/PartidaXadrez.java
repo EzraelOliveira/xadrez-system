@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import boardgame.Piece;
 import boardgame.Posicao;
@@ -15,13 +16,15 @@ public class PartidaXadrez {
 	private int turno;
 	private Cor jogadorAtual;
 	private Tabuleiro tabuleiro;
+	private boolean check;
 	private List<Piece> piecesNoTabuleiro = new ArrayList<>();
 	private List<Piece> piecesCapturadas = new ArrayList<>();
+
 	// CONSTRUCTORS
 	public PartidaXadrez() {
 		tabuleiro = new Tabuleiro(8, 8);
 		turno = 1;
-		jogadorAtual = Cor.BRANCO; 
+		jogadorAtual = Cor.BRANCO;
 		initialSetup();
 	}
 
@@ -34,12 +37,16 @@ public class PartidaXadrez {
 		return jogadorAtual;
 	}
 
+	public boolean getCheck() {
+		return check;
+	}
+
 	// METHODS
 	private void proximoTurno() {
 		turno++;
-		jogadorAtual =(jogadorAtual == Cor.BRANCO) ? Cor.PRETO : Cor.BRANCO;
+		jogadorAtual = (jogadorAtual == Cor.BRANCO) ? Cor.PRETO : Cor.BRANCO;
 	}
-	
+
 	public PieceXadrez[][] getPieces() {
 		PieceXadrez[][] mat = new PieceXadrez[tabuleiro.getLinhas()][tabuleiro.getColunas()];
 		for (int i = 0; i < tabuleiro.getLinhas(); i++) {
@@ -61,29 +68,47 @@ public class PartidaXadrez {
 		Posicao alvo = posicaoAlvo.toPosition();
 		validarPosicaoInicial(inicial);
 		validarPosicaoAlvo(inicial, alvo);
-		Piece capturedPiece = fazerMovimento(inicial, alvo);
+		Piece pieceCapturada = fazerMovimento(inicial, alvo);
+
+		if (testeCheck(jogadorAtual)) {
+			desfazerMovimento(inicial, alvo, pieceCapturada);
+			throw new XadrezException("Voce nao pode se colocar em check");
+		}
+		check = (testeCheck(oponente(jogadorAtual))) ? true : false;
+
 		proximoTurno();
-		return (PieceXadrez) capturedPiece;
+		return (PieceXadrez) pieceCapturada;
 	}
 
 	private Piece fazerMovimento(Posicao inicial, Posicao alvo) {
 		Piece p = tabuleiro.removerPiece(inicial);
 		Piece pieceCapturada = tabuleiro.removerPiece(alvo);
 		tabuleiro.lugarpiece(p, alvo);
-		if(pieceCapturada != null) {
+		if (pieceCapturada != null) {
 			piecesNoTabuleiro.remove(pieceCapturada);
 			piecesCapturadas.add(pieceCapturada);
 		}
 		return pieceCapturada;
 	}
 
+	private void desfazerMovimento(Posicao inicial, Posicao alvo, Piece pieceCapturada) {
+		Piece p = tabuleiro.removerPiece(alvo);
+		tabuleiro.lugarpiece(p, inicial);
+
+		if (pieceCapturada != null) {
+			tabuleiro.lugarpiece(pieceCapturada, alvo);
+			piecesCapturadas.remove(pieceCapturada);
+			piecesNoTabuleiro.add(pieceCapturada);
+		}
+	}
+
 	private void validarPosicaoInicial(Posicao posicao) {
 		if (!tabuleiro.existeUmaPiece(posicao)) {
 			throw new XadrezException("Nao ha nada nessa coordenada");
 		}
-		if(jogadorAtual != ((PieceXadrez)tabuleiro.piece(posicao)).getCor()) {
+		if (jogadorAtual != ((PieceXadrez) tabuleiro.piece(posicao)).getCor()) {
 			throw new XadrezException("Isso pertence ao adversario");
-			
+
 		}
 		if (!tabuleiro.piece(posicao).podeSeMover()) {
 			throw new XadrezException("Nao existe movimentos possiveis ");
@@ -95,7 +120,35 @@ public class PartidaXadrez {
 			throw new XadrezException("Nao pode se mover para a coordenada alvo");
 		}
 	}
-	
+
+	private Cor oponente(Cor cor) {
+		return (cor == Cor.BRANCO) ? Cor.PRETO : Cor.BRANCO;
+	}
+
+	private PieceXadrez rei(Cor cor) {
+		List<Piece> list = piecesNoTabuleiro.stream().filter(x -> ((PieceXadrez) x).getCor() == cor)
+				.collect(Collectors.toList());
+		for (Piece p : list) {
+			if (p instanceof Rei) {
+				return (PieceXadrez) p;
+			}
+		}
+		throw new IllegalStateException("Nao existe rei da cor " + cor + "no tabuleiro");
+	}
+
+	private boolean testeCheck(Cor cor) {
+		Posicao reiPosicao = rei(cor).getPosicaoXadrez().toPosition();
+		List<Piece> piecesOponentes = piecesNoTabuleiro.stream()
+				.filter(x -> ((PieceXadrez) x).getCor() == oponente(cor)).collect(Collectors.toList());
+		for (Piece p : piecesOponentes) {
+			boolean[][] mat = p.movimentosPossiveis();
+			if (mat[reiPosicao.getLinha()][reiPosicao.getColuna()]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private void lugarNovaPiece(char coluna, int linha, PieceXadrez piece) {
 		tabuleiro.lugarpiece(piece, new PosicaoXadrez(coluna, linha).toPosition());
 		piecesNoTabuleiro.add(piece);

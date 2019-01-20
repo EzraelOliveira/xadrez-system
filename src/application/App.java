@@ -34,6 +34,7 @@ public class App {
 				PosicaoXadrez alvo = UI.lerPosicaoXadrez(sc);
 				
 				PieceXadrez pieceCapturadas = partidaXadrez.performChessMove(inicial, alvo);
+				
 				if(pieceCapturadas != null) {
 					capturadas.add(pieceCapturadas);
 				}
