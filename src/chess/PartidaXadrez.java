@@ -1,8 +1,11 @@
 package chess;
 
-import boardgame.Tabuleiro;
+import java.util.ArrayList;
+import java.util.List;
+
 import boardgame.Piece;
 import boardgame.Posicao;
+import boardgame.Tabuleiro;
 import chess.pieces.Rei;
 import chess.pieces.Torre;
 
@@ -12,7 +15,8 @@ public class PartidaXadrez {
 	private int turno;
 	private Cor jogadorAtual;
 	private Tabuleiro tabuleiro;
-
+	private List<Piece> piecesNoTabuleiro = new ArrayList<>();
+	private List<Piece> piecesCapturadas = new ArrayList<>();
 	// CONSTRUCTORS
 	public PartidaXadrez() {
 		tabuleiro = new Tabuleiro(8, 8);
@@ -64,9 +68,13 @@ public class PartidaXadrez {
 
 	private Piece fazerMovimento(Posicao inicial, Posicao alvo) {
 		Piece p = tabuleiro.removerPiece(inicial);
-		Piece capturedPiece = tabuleiro.removerPiece(alvo);
+		Piece pieceCapturada = tabuleiro.removerPiece(alvo);
 		tabuleiro.lugarpiece(p, alvo);
-		return capturedPiece;
+		if(pieceCapturada != null) {
+			piecesNoTabuleiro.remove(pieceCapturada);
+			piecesCapturadas.add(pieceCapturada);
+		}
+		return pieceCapturada;
 	}
 
 	private void validarPosicaoInicial(Posicao posicao) {
@@ -90,6 +98,7 @@ public class PartidaXadrez {
 	
 	private void lugarNovaPiece(char coluna, int linha, PieceXadrez piece) {
 		tabuleiro.lugarpiece(piece, new PosicaoXadrez(coluna, linha).toPosition());
+		piecesNoTabuleiro.add(piece);
 	}
 
 	private void initialSetup() {
