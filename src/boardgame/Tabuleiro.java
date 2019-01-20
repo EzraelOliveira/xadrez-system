@@ -1,19 +1,20 @@
 package boardgame;
 
 public class Tabuleiro {
+
 	// ATTRIBUTES
 	private int linhas;
 	private int colunas;
-	private Pieces[][] pieces;
+	private Piece[][] pieces;
 
-	// COSNTRUCTORS
+	// CONSTRUCTORS
 	public Tabuleiro(int linhas, int colunas) {
 		if (linhas < 1 || colunas < 1) {
-			throw new TabuleiroException("Erro ao criar o tabuleiro, tem que haver pelo menos uma linha  e uma coluna");
+			throw new TabuleiroException("Erro ao criar o tabuleiro, deve haver ao menos uma linha e uma coluna");
 		}
 		this.linhas = linhas;
 		this.colunas = colunas;
-		pieces = new Pieces[linhas][colunas];
+		pieces = new Piece[linhas][colunas];
 	}
 
 	// GETTERS AND SETTERS
@@ -26,43 +27,42 @@ public class Tabuleiro {
 	}
 
 	// METHODS
-	public Pieces piece(int linha, int coluna) {
-		if(!posicaoExiste(linha, coluna)){
-			throw new TabuleiroException("Coordenada informada está fora do tabuleiro");
+	public Piece piece(int linha, int coluna) {
+		if (!posicaoExiste(linha, coluna)) {
+			throw new TabuleiroException("Coordenada fora do tabuleiro");
 		}
 		return pieces[linha][coluna];
 	}
 
-	public Pieces piece(Posicao posicao) {
-		if(!posicaoExiste(posicao)){
-			throw new TabuleiroException("Coordeanda informada está fora do tabuleiro");
+	public Piece piece(Posicao posicao) {
+		if (!posicaoExiste(posicao)) {
+			throw new TabuleiroException("Coordenada fora do tabuleiro");
 		}
 		return pieces[posicao.getLinha()][posicao.getColuna()];
 	}
 
-	public void lugarPiece(Pieces piece, Posicao posicao) {
-		if(temUmaPiece(posicao)) {
-			throw new TabuleiroException("Já existe algo nessa coordenada: "+ posicao);
+	public void lugarpiece(Piece piece, Posicao posicao) {
+		if (existeUmaPiece(posicao)) {
+			throw new TabuleiroException("Nao ha nada na coordenada: " + posicao);
 		}
 		pieces[posicao.getLinha()][posicao.getColuna()] = piece;
 		piece.posicao = posicao;
 	}
-	
-	public Pieces removerPiece(Posicao posicao) {
-		if(!posicaoExiste(posicao)) {
+
+	public Piece removerPiece(Posicao posicao) {
+		if (!posicaoExiste(posicao)) {
 			throw new TabuleiroException("Coordenada fora do tabuleiro");
 		}
-		if (piece(posicao)==null) {
+		if (piece(posicao) == null) {
 			return null;
 		}
-		Pieces aux = piece(posicao);
+		Piece aux = piece(posicao);
 		aux.posicao = null;
-		pieces[posicao.getLinha()][posicao.getColuna()]= null;
+		pieces[posicao.getLinha()][posicao.getColuna()] = null;
 		return aux;
-		
 	}
 
-	public boolean posicaoExiste(int linha, int coluna) {
+	private boolean posicaoExiste(int linha, int coluna) {
 		return linha >= 0 && linha < linhas && coluna >= 0 && coluna < colunas;
 	}
 
@@ -70,9 +70,9 @@ public class Tabuleiro {
 		return posicaoExiste(posicao.getLinha(), posicao.getColuna());
 	}
 
-	public boolean temUmaPiece(Posicao posicao) {
-		if(!posicaoExiste(posicao)){
-			throw new TabuleiroException("Coordenada está fora do tabuleiro");
+	public boolean existeUmaPiece(Posicao posicao) {
+		if (!posicaoExiste(posicao)) {
+			throw new TabuleiroException("Coordenada fora do tabuleiro");
 		}
 		return piece(posicao) != null;
 	}

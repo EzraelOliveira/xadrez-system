@@ -1,13 +1,13 @@
 package boardgame;
 
 public class Posicao {
+	
 	// ATTRIBUTES
 	private int linha;
 	private int coluna;
 
 	// CONSTRUCTORS
 	public Posicao(int linha, int coluna) {
-		super();
 		this.linha = linha;
 		this.coluna = coluna;
 	}
@@ -29,12 +29,12 @@ public class Posicao {
 		this.coluna = coluna;
 	}
 
-	//METHODS
 	public void setValores(int linha, int coluna) {
 		this.linha = linha;
 		this.coluna = coluna;
 	}
-	
+
+	// METHODS
 	@Override
 	public String toString() {
 		return linha + ", " + coluna;
