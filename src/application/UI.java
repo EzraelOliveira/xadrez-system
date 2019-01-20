@@ -3,9 +3,10 @@ package application;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import chess.Cor;
+import chess.PartidaXadrez;
 import chess.PieceXadrez;
 import chess.PosicaoXadrez;
-import chess.Cor;
 
 //USER INTERFACE
 public class UI {
@@ -35,6 +36,7 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+	// METHODS
 	public static void limparConsole() {
 		/*
 		 * Código pego no StackOverFlow serve para limpar o console
@@ -44,7 +46,6 @@ public class UI {
 		System.out.flush();
 	}
 
-	// METHODS
 	public static PosicaoXadrez lerPosicaoXadrez(Scanner sc) {
 		try {
 			String s = sc.nextLine();
@@ -55,7 +56,13 @@ public class UI {
 			throw new InputMismatchException("Somente sera aceito coordenadas de a1 a h8");
 		}
 	}
-
+	public static void printPartida(PartidaXadrez partidaXadrez) {
+		printTabuleiro(partidaXadrez.getPieces());
+		System.out.println();
+		System.out.println("Turno: "+ partidaXadrez.getTurno());
+		System.out.println("Esperando a jogada do jogador:"+ partidaXadrez.getJogadorAtual() );
+		
+	}
 	public static void printTabuleiro(PieceXadrez[][] pieces) {
 		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");

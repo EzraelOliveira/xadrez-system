@@ -13,24 +13,24 @@ public class App {
 	public static void main(String[] args) {
 		
 		Scanner sc = new Scanner(System.in);
-		PartidaXadrez chessMatch = new PartidaXadrez();
+		PartidaXadrez partidaXadrez = new PartidaXadrez();
 		
 		while (true) {
 			try {
 				UI.limparConsole();
-				UI.printTabuleiro(chessMatch.getPieces());
+				UI.printPartida(partidaXadrez);
 				System.out.println();
 				System.out.print("Inicial: ");
 				PosicaoXadrez inicial = UI.lerPosicaoXadrez(sc);
 				
-				boolean[][] movimentosPossiveis = chessMatch.movimentosPossiveis(inicial);
+				boolean[][] movimentosPossiveis = partidaXadrez.movimentosPossiveis(inicial);
 				UI.limparConsole();
-				UI.printTabuleiro(chessMatch.getPieces(), movimentosPossiveis);
+				UI.printTabuleiro(partidaXadrez.getPieces(), movimentosPossiveis);
 				System.out.println();
 				System.out.print("Alvo: ");
 				PosicaoXadrez alvo = UI.lerPosicaoXadrez(sc);
 				
-				PieceXadrez capturedPiece = chessMatch.performChessMove(inicial, alvo);
+				PieceXadrez capturedPiece = partidaXadrez.performChessMove(inicial, alvo);
 			}
 			catch (XadrezException e) {
 				System.out.println(e.getMessage());
