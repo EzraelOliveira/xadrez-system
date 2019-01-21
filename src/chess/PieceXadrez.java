@@ -7,6 +7,7 @@ import boardgame.Posicao;
 public abstract class PieceXadrez extends Piece {
 	//ATTRIBUTES
 	private Cor cor;
+	private int moveCount;
 
 	//CONSTRUCTORS
 	public PieceXadrez(Tabuleiro tabuleiro, Cor cor) {
@@ -18,8 +19,17 @@ public abstract class PieceXadrez extends Piece {
 	public Cor getCor() {
 		return cor;
 	}
+	public int getMoveCount() {
+		return moveCount;
+	}
 	
 	// METHODS
+	public void acrescentarMoveCount() {
+		moveCount++;
+	}
+	public void decrencentarMoveCount() {
+		moveCount--;
+	}
 	public PosicaoXadrez getPosicaoXadrez() {
 		 return PosicaoXadrez.fromPosicao(posicao);
 	}

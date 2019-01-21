@@ -90,7 +90,8 @@ public class PartidaXadrez {
 	}
 
 	private Piece fazerMovimento(Posicao inicial, Posicao alvo) {
-		Piece p = tabuleiro.removerPiece(inicial);
+		PieceXadrez p = (PieceXadrez)tabuleiro.removerPiece(inicial);
+		p.acrescentarMoveCount();
 		Piece pieceCapturada = tabuleiro.removerPiece(alvo);
 		tabuleiro.lugarpiece(p, alvo);
 		if (pieceCapturada != null) {
@@ -101,7 +102,8 @@ public class PartidaXadrez {
 	}
 
 	private void desfazerMovimento(Posicao inicial, Posicao alvo, Piece pieceCapturada) {
-		Piece p = tabuleiro.removerPiece(alvo);
+		PieceXadrez p = (PieceXadrez)tabuleiro.removerPiece(alvo);
+		p.decrencentarMoveCount();
 		tabuleiro.lugarpiece(p, inicial);
 
 		if (pieceCapturada != null) {
