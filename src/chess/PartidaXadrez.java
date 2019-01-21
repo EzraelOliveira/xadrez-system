@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import boardgame.Piece;
 import boardgame.Posicao;
 import boardgame.Tabuleiro;
+import chess.pieces.Bispo;
 import chess.pieces.Peao;
 import chess.pieces.Rei;
 import chess.pieces.Torre;
@@ -193,6 +194,7 @@ public class PartidaXadrez {
 	}
 
 	private void initialSetup() {
+		//BRANCO
 		lugarNovaPiece('a', 2, new Peao(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('b', 2, new Peao(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('c', 2, new Peao(tabuleiro, Cor.BRANCO));
@@ -201,10 +203,17 @@ public class PartidaXadrez {
 		lugarNovaPiece('f', 2, new Peao(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('g', 2, new Peao(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('h', 2, new Peao(tabuleiro, Cor.BRANCO));
+		
 		lugarNovaPiece('a', 1, new Torre(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('h', 1, new Torre(tabuleiro, Cor.BRANCO));
+		
+		lugarNovaPiece('c', 1, new Bispo(tabuleiro, Cor.BRANCO));
+		lugarNovaPiece('f', 1, new Bispo(tabuleiro, Cor.BRANCO));
+		
 		lugarNovaPiece('e', 1, new Rei(tabuleiro, Cor.BRANCO));
+		
 
+		//PRETO
 		lugarNovaPiece('a', 7, new Peao(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('b', 7, new Peao(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('c', 7, new Peao(tabuleiro, Cor.PRETO));
@@ -213,8 +222,14 @@ public class PartidaXadrez {
 		lugarNovaPiece('f', 7, new Peao(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('g', 7, new Peao(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('h', 7, new Peao(tabuleiro, Cor.PRETO));
+		
 		lugarNovaPiece('a', 8, new Torre(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('h', 8, new Torre(tabuleiro, Cor.PRETO));
+		
+		lugarNovaPiece('c', 8, new Bispo(tabuleiro, Cor.PRETO));
+		lugarNovaPiece('f', 8, new Bispo(tabuleiro, Cor.PRETO));
+		
 		lugarNovaPiece('e', 8, new Rei(tabuleiro, Cor.PRETO));
+		
 	}
 }

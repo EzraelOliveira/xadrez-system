@@ -21,6 +21,7 @@ public class Peao extends PieceXadrez {
 	@Override
 	public boolean[][] movimentosPossiveis() {
 		boolean[][] mat = new boolean[getTabuleiro().getLinhas()][getTabuleiro().getColunas()];
+
 		Posicao p = new Posicao(0, 0);
 
 		if (getCor() == Cor.BRANCO) {
@@ -30,39 +31,36 @@ public class Peao extends PieceXadrez {
 			}
 			p.setValores(posicao.getLinha() - 2, posicao.getColuna());
 			Posicao p2 = new Posicao(posicao.getLinha() - 1, posicao.getColuna());
-			if (getTabuleiro().posicaoExiste(p) && !getTabuleiro().existeUmaPiece(p) && getTabuleiro().posicaoExiste(p2)
-					&& !getTabuleiro().existeUmaPiece(p2) && getMoveCount() == 0) {
+			if (getTabuleiro().posicaoExiste(p) && !getTabuleiro().existeUmaPiece(p) && getTabuleiro().posicaoExiste(p2) && !getTabuleiro().existeUmaPiece(p2) && getMoveCount() == 0) {
 				mat[p.getLinha()][p.getColuna()] = true;
 			}
 			p.setValores(posicao.getLinha() - 1, posicao.getColuna() - 1);
 			if (getTabuleiro().posicaoExiste(p) && temUmaPieceDoOponente(p)) {
 				mat[p.getLinha()][p.getColuna()] = true;
-			}
+			}			
 			p.setValores(posicao.getLinha() - 1, posicao.getColuna() + 1);
 			if (getTabuleiro().posicaoExiste(p) && temUmaPieceDoOponente(p)) {
 				mat[p.getLinha()][p.getColuna()] = true;
-			}
-
-		} else {
+			}			
+		}
+		else {
 			p.setValores(posicao.getLinha() + 1, posicao.getColuna());
 			if (getTabuleiro().posicaoExiste(p) && !getTabuleiro().existeUmaPiece(p)) {
 				mat[p.getLinha()][p.getColuna()] = true;
 			}
 			p.setValores(posicao.getLinha() + 2, posicao.getColuna());
 			Posicao p2 = new Posicao(posicao.getLinha() - 1, posicao.getColuna());
-			if (getTabuleiro().posicaoExiste(p) && !getTabuleiro().existeUmaPiece(p) && getTabuleiro().posicaoExiste(p2)
-					&& !getTabuleiro().existeUmaPiece(p2) && getMoveCount() == 0) {
+			if (getTabuleiro().posicaoExiste(p) && !getTabuleiro().existeUmaPiece(p) && getTabuleiro().posicaoExiste(p2) && !getTabuleiro().existeUmaPiece(p2) && getMoveCount() == 0) {
 				mat[p.getLinha()][p.getColuna()] = true;
 			}
 			p.setValores(posicao.getLinha() + 1, posicao.getColuna() - 1);
 			if (getTabuleiro().posicaoExiste(p) && temUmaPieceDoOponente(p)) {
 				mat[p.getLinha()][p.getColuna()] = true;
-			}
+			}			
 			p.setValores(posicao.getLinha() + 1, posicao.getColuna() + 1);
 			if (getTabuleiro().posicaoExiste(p) && temUmaPieceDoOponente(p)) {
 				mat[p.getLinha()][p.getColuna()] = true;
-			}
-
+			}	
 		}
 		return mat;
 	}
