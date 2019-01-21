@@ -87,14 +87,14 @@ public class PartidaXadrez {
 
 		if (testeCheckMate(oponente(jogadorAtual))) {
 			checkMate = true;
-		}else {
+		} else {
 			proximoTurno();
 		}
 		return (PieceXadrez) pieceCapturada;
 	}
 
 	private Piece fazerMovimento(Posicao inicial, Posicao alvo) {
-		PieceXadrez p = (PieceXadrez)tabuleiro.removerPiece(inicial);
+		PieceXadrez p = (PieceXadrez) tabuleiro.removerPiece(inicial);
 		p.acrescentarMoveCount();
 		Piece pieceCapturada = tabuleiro.removerPiece(alvo);
 		tabuleiro.lugarpiece(p, alvo);
@@ -102,11 +102,28 @@ public class PartidaXadrez {
 			piecesNoTabuleiro.remove(pieceCapturada);
 			piecesCapturadas.add(pieceCapturada);
 		}
+		// movimento especial Roque
+		// Roque pequeno
+		if (p instanceof Rei && alvo.getColuna() == inicial.getColuna() + 2) {
+			Posicao inicialT = new Posicao(inicial.getLinha(), inicial.getColuna() + 3);
+			Posicao alvoT = new Posicao(inicial.getLinha(), inicial.getColuna() + 1);
+			PieceXadrez torre = (PieceXadrez) tabuleiro.removerPiece(inicialT);
+			tabuleiro.lugarpiece(torre, alvoT);
+			torre.acrescentarMoveCount();
+		}
+		// Roque grande
+		if (p instanceof Rei && alvo.getColuna() == inicial.getColuna() - 2) {
+			Posicao inicialT = new Posicao(inicial.getLinha(), inicial.getColuna() - 4);
+			Posicao alvoT = new Posicao(inicial.getLinha(), inicial.getColuna() - 1);
+			PieceXadrez torre = (PieceXadrez) tabuleiro.removerPiece(inicialT);
+			tabuleiro.lugarpiece(torre, alvoT);
+			torre.acrescentarMoveCount();
+		}
 		return pieceCapturada;
 	}
 
 	private void desfazerMovimento(Posicao inicial, Posicao alvo, Piece pieceCapturada) {
-		PieceXadrez p = (PieceXadrez)tabuleiro.removerPiece(alvo);
+		PieceXadrez p = (PieceXadrez) tabuleiro.removerPiece(alvo);
 		p.decrencentarMoveCount();
 		tabuleiro.lugarpiece(p, inicial);
 
@@ -114,6 +131,23 @@ public class PartidaXadrez {
 			tabuleiro.lugarpiece(pieceCapturada, alvo);
 			piecesCapturadas.remove(pieceCapturada);
 			piecesNoTabuleiro.add(pieceCapturada);
+		}
+		// movimento especial Roque
+		// Roque pequeno
+		if (p instanceof Rei && alvo.getColuna() == inicial.getColuna() + 2) {
+			Posicao inicialT = new Posicao(inicial.getLinha(), inicial.getColuna() + 3);
+			Posicao alvoT = new Posicao(inicial.getLinha(), inicial.getColuna() + 1);
+			PieceXadrez torre = (PieceXadrez) tabuleiro.removerPiece(alvoT);
+			tabuleiro.lugarpiece(torre, inicialT);
+			torre.decrencentarMoveCount();
+		}
+		// Roque grande
+		if (p instanceof Rei && alvo.getColuna() == inicial.getColuna() - 2) {
+			Posicao inicialT = new Posicao(inicial.getLinha(), inicial.getColuna() - 4);
+			Posicao alvoT = new Posicao(inicial.getLinha(), inicial.getColuna() - 1);
+			PieceXadrez torre = (PieceXadrez) tabuleiro.removerPiece(alvoT);
+			tabuleiro.lugarpiece(torre, inicialT);
+			torre.decrencentarMoveCount();
 		}
 	}
 
@@ -196,16 +230,16 @@ public class PartidaXadrez {
 	}
 
 	private void initialSetup() {
-		//branco
+		// branco
 		lugarNovaPiece('a', 1, new Torre(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('b', 1, new Cavalo(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('c', 1, new Bispo(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('d', 1, new Rainha(tabuleiro, Cor.BRANCO));
-		lugarNovaPiece('e', 1, new Rei(tabuleiro, Cor.BRANCO));
+		lugarNovaPiece('e', 1, new Rei(tabuleiro, Cor.BRANCO, this));
 		lugarNovaPiece('f', 1, new Bispo(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('g', 1, new Cavalo(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('h', 1, new Torre(tabuleiro, Cor.BRANCO));
-		
+
 		lugarNovaPiece('a', 2, new Peao(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('b', 2, new Peao(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('c', 2, new Peao(tabuleiro, Cor.BRANCO));
@@ -214,18 +248,17 @@ public class PartidaXadrez {
 		lugarNovaPiece('f', 2, new Peao(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('g', 2, new Peao(tabuleiro, Cor.BRANCO));
 		lugarNovaPiece('h', 2, new Peao(tabuleiro, Cor.BRANCO));
-		
 
-		//preto
+		// preto
 		lugarNovaPiece('a', 8, new Torre(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('b', 8, new Cavalo(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('c', 8, new Bispo(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('d', 8, new Rainha(tabuleiro, Cor.PRETO));
-		lugarNovaPiece('e', 8, new Rei(tabuleiro, Cor.PRETO));
+		lugarNovaPiece('e', 8, new Rei(tabuleiro, Cor.PRETO, this));
 		lugarNovaPiece('f', 8, new Bispo(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('g', 8, new Cavalo(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('h', 8, new Torre(tabuleiro, Cor.PRETO));
-		
+
 		lugarNovaPiece('a', 7, new Peao(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('b', 7, new Peao(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('c', 7, new Peao(tabuleiro, Cor.PRETO));
@@ -234,7 +267,6 @@ public class PartidaXadrez {
 		lugarNovaPiece('f', 7, new Peao(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('g', 7, new Peao(tabuleiro, Cor.PRETO));
 		lugarNovaPiece('h', 7, new Peao(tabuleiro, Cor.PRETO));
-		
-		
+
 	}
 }
