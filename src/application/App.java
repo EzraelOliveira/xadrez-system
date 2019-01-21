@@ -38,6 +38,11 @@ public class App {
 				if(pieceCapturadas != null) {
 					capturadas.add(pieceCapturadas);
 				}
+				if(partidaXadrez.getPromover() != null) {
+					System.out.print("Digite sua de promocao (B/C/T/Q): ");
+					String tipo = sc.nextLine();
+					partidaXadrez.substituirPiecePromovida(tipo);
+				}
 			}
 			catch (XadrezException e) {
 				System.out.println(e.getMessage());

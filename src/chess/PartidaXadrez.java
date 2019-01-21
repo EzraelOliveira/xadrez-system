@@ -1,5 +1,6 @@
 package chess;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class PartidaXadrez {
 	private boolean check;
 	private boolean checkMate;
 	private PieceXadrez vuneravelEnPassant;
+	private PieceXadrez promover;
 	private List<Piece> piecesNoTabuleiro = new ArrayList<>();
 	private List<Piece> piecesCapturadas = new ArrayList<>();
 
@@ -53,6 +55,10 @@ public class PartidaXadrez {
 
 	public PieceXadrez getVuneravelEnPassant() {
 		return vuneravelEnPassant;
+	}
+
+	public PieceXadrez getPromover() {
+		return promover;
 	}
 
 	// METHODS
@@ -91,6 +97,21 @@ public class PartidaXadrez {
 
 		PieceXadrez pieceMovida = ((PieceXadrez) tabuleiro.piece(alvo));
 
+		//Jogada especial Promover
+		promover = null;
+		if(pieceMovida instanceof Peao) {
+			if(pieceMovida.getCor() == Cor.BRANCO &&  alvo.getLinha() == 0 ||pieceMovida.getCor() == Cor.PRETO &&  alvo.getLinha() == 7) {
+				promover = (PieceXadrez)tabuleiro.piece(alvo);
+				promover = substituirPiecePromovida("Q");
+				
+			}
+		}
+		
+		
+		
+		
+		
+		
 		check = (testeCheck(oponente(jogadorAtual))) ? true : false;
 
 		if (testeCheckMate(oponente(jogadorAtual))) {
@@ -107,6 +128,32 @@ public class PartidaXadrez {
 			vuneravelEnPassant = null;
 		}
 		return (PieceXadrez) pieceCapturada;
+	}
+	
+	
+	
+	
+	public PieceXadrez substituirPiecePromovida(String tipo) {
+		if(promover == null) {
+			throw new IllegalStateException("Nao pode ser promovida");
+		}
+		if(!tipo.equals("B")&&!tipo.equals("C")&&!tipo.equals("T")&&!tipo.equals("Q")) {
+			throw new InvalidParameterException("Tipo Invalido de promocao");
+		}
+		Posicao pos = promover.getPosicaoXadrez().toPosition();
+		Piece p = tabuleiro.removerPiece(pos);
+		piecesNoTabuleiro.remove(p);
+		
+		PieceXadrez novaPiece = novaPiece(tipo, promover.getCor());
+		tabuleiro.lugarpiece(novaPiece, pos);
+		piecesNoTabuleiro.add(novaPiece);
+		return novaPiece;
+	}
+	private PieceXadrez novaPiece(String tipo, Cor cor) {
+		if(tipo.equals("B")) return  new Bispo(tabuleiro,cor);
+		if(tipo.equals("C")) return  new Cavalo(tabuleiro,cor);
+		if(tipo.equals("T")) return  new Torre(tabuleiro,cor);
+		return  new Rainha(tabuleiro,cor);
 	}
 
 	private Piece fazerMovimento(Posicao inicial, Posicao alvo) {
